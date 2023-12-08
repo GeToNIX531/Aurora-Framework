@@ -7,13 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ZedGraph;
 
-namespace Aurora_Framework
+namespace Aurora_Framework.Modules.AI.LLM.Forms
 {
-    public partial class Form1 : Form
+    public partial class _2ch_Parser : Form
     {
-        public Form1()
+        public _2ch_Parser()
         {
             InitializeComponent();
         }
