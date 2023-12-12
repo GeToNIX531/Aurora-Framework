@@ -1,120 +1,60 @@
-﻿using SharpDX;
+﻿using Aurora_Framework.Modules.AI.Games.OSU.Data;
+using SharpDX;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
+namespace Aurora_Framework.Modules.AI.Games.OSU
 {
-    public partial class Viewer : Form
+    public class Viewer
     {
-        Size size;
-        Size sizefull;
-        Bitmap full;
-        Tracker tracker;
-        public Viewer()
+        private ImageFilter filter;
+        private Screenshot screenshot;
+        private Scaler scaler;
+
+        public Viewer(Size Screen, Size View)
         {
-            tracker = new Tracker();
-            tracker.UpdateStatusEvent += TrackerUpdateStatus;
-            tracker.Show();
-
-            InitializeComponent();
-            size = new Size(120, 90);
-            sizefull = new Size(1920, 1080);
-            full = new Bitmap(sizefull.Width, sizefull.Height, PixelFormat.Format32bppArgb);
-            img = new Color[size.Width, size.Height];
-            iFilter = new ImageFilter(size);
-
-            Init();
-
-            xOffset = sizefull.Width / size.Width;
-            yOffset = sizefull.Height / size.Height;
-
-           
+            filter = new ImageFilter(View);
+            screenshot = new Screenshot(Screen);
+            scaler = new Scaler(Screen, View);
         }
 
-        ImageFilter iFilter;
-        int count = 0;
-
-        bool ready = true;
-        private void timer1_Tick(object sender, EventArgs e)
+        public bool Take(out Bitmap Bitmap)
         {
-            if (ready)
+            if (screenshot.Take(out var screen))
             {
-                ready = false;
-                Tick();
-                ready = true;
+                var view = scaler.Scale(screen);
+                Bitmap = filter.FilterV1(view);
+                return true;
             }
+
+            Bitmap = null;
+            return false;
         }
 
-        private bool TrackerStatus = false;
-        private void TrackerUpdateStatus(bool Status)
-        {
-            TrackerStatus = Status;
-        }
+    }
 
-        long frame = 0;
-        private void Tick()
-        {
-            if (TakeScreenshot() == false) return;
-
-            if (TrackerStatus)
-            {
-                frame++;
-                tracker.Tick(frame);
-            }
-            Render();
-
-            if (TrackerStatus)
-            {
-                string path = $"Frames/{frame}.png";
-                if (File.Exists(path)) File.Delete(path);
-                renderImage.Save(path, ImageFormat.Png);
-                count += 1;
-            }
-        }
-
-
-        Color[,] img;
-        int xOffset;
-        int yOffset;
-
-        Bitmap renderImage;
-
-        private void Render()
-        {
-            for (int y = 0; y < size.Height; y++)
-                for (int x = 0; x < size.Width; x++)
-                    img[x, y] = full.GetPixel(x * xOffset, y * yOffset);
-
-            //var iImage = iFilter.Input(img);
-            renderImage = iFilter.FilterV1(img, out float[] aiInput);
-            pictureBox1.Image = renderImage;
-
-            /*
-            iFilter.Back = back;
-            var iImage2 = iFilter.FilterV1(img);
-            pictureBox2.Image = iImage2;
-            */
-        }
-
+    public class Screenshot
+    {
         SharpDX.Direct3D11.Device device;
         Texture2DDescription textureDesc;
         Output1 output1;
         int height;
-        private void Init()
+
+        private Bitmap Screen;
+        private Size Size;
+        public Screenshot(Size Size)
         {
+            Screen = new Bitmap(Size.Width, Size.Height, PixelFormat.Format32bppArgb);
+            this.Size = Size;
+
             var factory = new Factory1();
             var adapter = factory.GetAdapter1(0);
             Console.WriteLine(adapter.Description1.Description);
@@ -123,8 +63,8 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
             Console.WriteLine(output.Description.DeviceName);
             output1 = output.QueryInterface<Output1>();
 
-            int width = sizefull.Width;
-            height = sizefull.Height;
+            int width = Size.Width;
+            height = Size.Height;
 
             textureDesc = new Texture2DDescription
             {
@@ -144,12 +84,14 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
             duplicatedOutput = output1.DuplicateOutput(device);
             Thread.Sleep(20); // захватчику экрана надо время проинициализироваться
         }
+
         Texture2D screenTexture;
         OutputDuplication duplicatedOutput;
-
         SharpDX.DXGI.Resource screenResource;
-        bool TakeScreenshot()
+        public bool Take(out Bitmap ScreenShot)
         {
+            ScreenShot = Screen;
+
             if (duplicatedOutput.TryAcquireNextFrame(2, out _, out screenResource) != Result.Ok)
                 return false;
 
@@ -159,59 +101,20 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
             }
 
             DataBox mapSource = device.ImmediateContext.MapSubresource(screenTexture, 0, MapMode.Read, SharpDX.Direct3D11.MapFlags.None);
-            BitmapData fullData = full.LockBits(new Rectangle(Point.Empty, sizefull), ImageLockMode.WriteOnly, full.PixelFormat);
+            BitmapData fullData = Screen.LockBits(new Rectangle(Point.Empty, Size), ImageLockMode.WriteOnly, Screen.PixelFormat);
             IntPtr sourcePtr = mapSource.DataPointer;
             IntPtr destPtr = fullData.Scan0;
             Utilities.CopyMemory(destPtr, sourcePtr, mapSource.RowPitch * height);
-            full.UnlockBits(fullData);
+            Screen.UnlockBits(fullData);
             device.ImmediateContext.UnmapSubresource(screenTexture, 0);
             duplicatedOutput.ReleaseFrame();
             return true;
-        }
-
-        Bitmap TryTakeScreenshot()
-        {
-            SharpDX.DXGI.Resource screenResource = null;
-            try
-            {
-                if (duplicatedOutput.TryAcquireNextFrame(10, out OutputDuplicateFrameInformation duplicateFrameInformation, out screenResource) != Result.Ok)
-                    return full;
-
-                using (Texture2D screenTexture2D = screenResource.QueryInterface<Texture2D>())
-                {
-                    device.ImmediateContext.CopyResource(screenTexture2D, screenTexture);
-                }
-
-                DataBox mapSource = device.ImmediateContext.MapSubresource(screenTexture, 0, MapMode.Read, SharpDX.Direct3D11.MapFlags.None);
-                BitmapData fullData = full.LockBits(new Rectangle(Point.Empty, full.Size), ImageLockMode.WriteOnly, full.PixelFormat);
-                IntPtr sourcePtr = mapSource.DataPointer;
-                IntPtr destPtr = fullData.Scan0;
-                Utilities.CopyMemory(destPtr, sourcePtr, mapSource.RowPitch * height);
-                full.UnlockBits(fullData);
-                device.ImmediateContext.UnmapSubresource(screenTexture, 0);
-                duplicatedOutput.ReleaseFrame();
-            }
-            catch (SharpDXException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                screenResource?.Dispose();
-            }
-            return full;
-        }
-
-        private void timer2_Tick(object sender, EventArgs e)
-        {
-            Text = $"FPS: {this.count}";
-            this.count = 0;
         }
     }
 
     public class ImageFilter
     {
-        float realMax = 256;
+        float realMax = 255;
         float avg = 1f / 3f;
 
         public Color[,] Back;
@@ -273,11 +176,8 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
             return this.Result;
         }
 
-        public const float fColor = 1 / 256;
-        public Bitmap FilterV1(Color[,] Input, out float[] aiInput)
+        public Bitmap FilterV1(Color[,] Input)
         {
-            aiInput = new float[Size.Height * Size.Width];
-
             for (int y = 0; y < Size.Height; y++)
                 for (int x = 0; x < Size.Width; x++)
                 {
@@ -287,13 +187,11 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
                     int g = p.G;
                     int b = p.B;
 
-                    var value = r + b;
+                    int value = r + g + b;
                     value = value % 256;
 
                     var color = Color.FromArgb(value, value, value);
                     Result2.SetPixel(x, y, color);
-
-                    aiInput[Size.Height * y + x] = value * fColor;
                 }
 
             return this.Result2;
@@ -364,4 +262,33 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
         }
     }
 
+    public class Scaler
+    {
+        public Size Input;
+        public Size Output;
+
+        private int xScaleOffset;
+        private int yScaleOffset;
+
+        public Scaler(Size Input, Size Output)
+        {
+            this.Input = Input;
+            this.Output = Output;
+
+            xScaleOffset = Input.Width / Output.Width;
+            yScaleOffset = Input.Height / Output.Height;
+
+            Temp = new Color[Output.Width, Output.Height];
+        }
+
+        private Color[,] Temp;
+        public Color[,] Scale(Bitmap Image)
+        {
+            for (int y = 0; y < Output.Height; y++)
+                for (int x = 0; x < Output.Width; x++)
+                    Temp[x, y] = Image.GetPixel(x * xScaleOffset, y * yScaleOffset);
+
+            return Temp;
+        }
+    }
 }

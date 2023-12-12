@@ -17,7 +17,7 @@ namespace Aurora_Framework
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Modules.AI.Games.OSU.Forms.Viewer());
+            Application.Run(new Modules.AI.Games.OSU.Forms.Main());
         }
     }
 }
