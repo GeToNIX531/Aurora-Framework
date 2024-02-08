@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
+namespace Aurora_Framework.Modules.AI.TextGenerate
 {
     public partial class Main : Form
     {
@@ -17,9 +17,11 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
             InitializeComponent();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private Client client;
+        private void Main_Load(object sender, EventArgs e)
         {
-
+            client = new Client();
+            Text = client.Count.ToString();
         }
     }
 }

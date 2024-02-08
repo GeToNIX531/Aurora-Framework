@@ -8,18 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
+namespace GPT_AI
 {
-    public partial class Main : Form
+    public partial class Form1 : Form
     {
-        public Main()
+        public Form1()
         {
             InitializeComponent();
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-
         }
     }
 }

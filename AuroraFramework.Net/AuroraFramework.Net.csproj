@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SciSharp.TensorFlow.Redist" Version="2.16.0" />
+    <PackageReference Include="TensorFlow.Keras" Version="0.15.0" />
+    <PackageReference Include="TensorFlow.NET" Version="0.150.0" />
+    <PackageReference Include="Whetstone.ChatGPT" Version="1.6.2" />
+  </ItemGroup>
+
+</Project>

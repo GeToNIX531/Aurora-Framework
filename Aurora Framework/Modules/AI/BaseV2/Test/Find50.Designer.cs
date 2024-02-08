@@ -1,7 +1,7 @@
 ﻿
-namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
+namespace Aurora_Framework.Modules.AI.BaseV2.Test
 {
-    partial class Main
+    partial class Find50
     {
         /// <summary>
         /// Required designer variable.
@@ -35,17 +35,18 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
             // 
             // timer1
             // 
+            this.timer1.Enabled = true;
             this.timer1.Interval = 5;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // Main
+            // Find50
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(750, 502);
-            this.Name = "Main";
-            this.Text = "Main";
-            this.TransparencyKey = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Name = "Find50";
+            this.Text = "Find50";
+            this.Load += new System.EventHandler(this.Find50_Load);
             this.ResumeLayout(false);
 
         }

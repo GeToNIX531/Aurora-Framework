@@ -1,7 +1,7 @@
 ﻿
-namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
+namespace Aurora_Framework.Modules.AI.Games.OSU.Analyser.Forms
 {
-    partial class Main
+    partial class Viewer
     {
         /// <summary>
         /// Required designer variable.
@@ -29,29 +29,36 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // timer1
+            // pictureBox1
             // 
-            this.timer1.Interval = 5;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(120, 90);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
-            // Main
+            // Viewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(750, 502);
-            this.Name = "Main";
-            this.Text = "Main";
-            this.TransparencyKey = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(120, 90);
+            this.Controls.Add(this.pictureBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Name = "Viewer";
+            this.Text = "Viewer";
+            this.TopMost = true;
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

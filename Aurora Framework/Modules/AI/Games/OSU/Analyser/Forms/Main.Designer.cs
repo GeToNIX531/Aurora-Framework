@@ -1,5 +1,5 @@
 ﻿
-namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
+namespace Aurora_Framework.Modules.AI.Games.OSU.Analyser.Forms
 {
     partial class Main
     {
@@ -35,17 +35,20 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
             // 
             // timer1
             // 
-            this.timer1.Interval = 5;
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(750, 502);
+            this.ClientSize = new System.Drawing.Size(400, 60);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Main";
-            this.Text = "Main";
-            this.TransparencyKey = System.Drawing.SystemColors.Control;
+            this.Text = "Client";
+            this.TopMost = true;
+            this.TransparencyKey = System.Drawing.Color.Transparent;
             this.ResumeLayout(false);
 
         }

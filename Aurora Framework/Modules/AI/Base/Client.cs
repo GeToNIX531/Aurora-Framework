@@ -41,7 +41,7 @@ namespace AI_Aurora_V1.Modules.AI.Base
             for (int i = 0; i < LCount; i++)
                 temp = layers[i].Out(temp);
 
-            return temp.SoftMax();
+            return temp.ReLuValue();
         }
 
         public double Error(Vector<double> Input, Vector<double> Expected)
@@ -52,27 +52,30 @@ namespace AI_Aurora_V1.Modules.AI.Base
             return Activators.RMod(err);
         }
 
-        public void Learning(Vector<double> Input, Vector<double> Output)
+        public void Learning(Vector<double> Input, Vector<double> Output, double Alpha = 0.0001d)
         {
-            BPointer<Vector<double>> buffer = new BPointer<Vector<double>>(LCount + 1);
-            buffer.Add(Input);
-
-            for (int i = 0; i < LCount - 1; i++)
+            lock (layers)
             {
-                buffer.Last(out var bufferValue);
+                BPointer<Vector<double>> buffer = new BPointer<Vector<double>>(LCount + 1);
+                buffer.Add(Input);
 
-                var output = layers[i].Out(bufferValue);
-                buffer.Add(output);
-            }
+                for (int i = 0; i < LCount - 1; i++)
+                {
+                    buffer.Last(out var bufferValue);
 
-            var data = layers[LCount - 1].Backward(buffer.Take(), Output);
-            layers[LCount - 1].Update(data);
+                    var output = layers[i].Out(bufferValue);
+                    buffer.Add(output);
+                }
 
-            for (int i = 1; i < LCount; i++)
-            {
-                int index = LCount - 1 - i;
-                data = layers[index].BackwardHidden(buffer.Take(), data);
-                layers[index].Update(data);
+                var data = layers[LCount - 1].Backward(buffer.Take(), Output);
+                layers[LCount - 1].Update(data);
+
+                for (int i = 1; i < LCount; i++)
+                {
+                    int index = LCount - 1 - i;
+                    data = layers[index].BackwardHidden(buffer.Take(), data);
+                    layers[index].Update(data, Alpha);
+                }
             }
         }
 

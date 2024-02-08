@@ -50,7 +50,30 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Data
 
         public class Data
         {
+            public Menu menu;
             public GamePlay gameplay;
+
+            public class Menu
+            {
+                public int state;
+                public int gameMode;
+                public Map bm;
+                //Mao
+
+                public class Map
+                {
+                    public Time time;
+                    public long id;
+                    public long set;
+
+                    public class Time
+                    {
+                        public long current;
+                        public long full;
+                        public long mp3;
+                    }
+                }
+            }
 
             public class GamePlay
             {
@@ -84,6 +107,8 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Data
                     public int Score_0;
 
                     public int sliderBreaks;
+
+                    public long[] hitErrorArray;
                 }
             }
         }

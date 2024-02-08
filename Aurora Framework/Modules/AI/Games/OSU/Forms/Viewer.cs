@@ -30,7 +30,7 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
             tracker.Show();
 
             InitializeComponent();
-            size = new Size(120, 90);
+            size = new Size(80, 60);
             sizefull = new Size(1920, 1080);
             full = new Bitmap(sizefull.Width, sizefull.Height, PixelFormat.Format32bppArgb);
             img = new Color[size.Width, size.Height];
@@ -278,6 +278,7 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
         {
             aiInput = new float[Size.Height * Size.Width];
 
+            int delta = 0;
             for (int y = 0; y < Size.Height; y++)
                 for (int x = 0; x < Size.Width; x++)
                 {
@@ -287,8 +288,11 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
                     int g = p.G;
                     int b = p.B;
 
-                    var value = r + b;
+                    var value = r + g + b;
+                    value += (int)(delta * 0.1f);
                     value = value % 256;
+
+                    delta = value;
 
                     var color = Color.FromArgb(value, value, value);
                     Result2.SetPixel(x, y, color);
@@ -299,63 +303,6 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
             return this.Result2;
         }
 
-
-        /*
-        private Bitmap Result;
-        public Bitmap Input(Bitmap Input)
-        {
-            for (int y = 0; y < Size.Height; y++)
-                for (int x = 0; x < Size.Width; x++)
-                {
-                    var p1 = Back[x, y];
-                    var p2 = Input.GetPixel(x, y);
-                    Back[x, y] = p2;
-
-
-                    int r = p1.R - p2.R;
-                    int g = p1.G - p2.G;
-                    int b = p1.B - p2.B;
-
-                    if (r == 0 && g == 0 && b == 0)
-                    {
-                        Result.SetPixel(x,y, Color.Black);
-                        continue;
-                    }
-
-                    int min = r;
-                    if (min > g) min = g;
-                    if (min > b) min = b;
-
-                    r = r - min;
-                    g = g - min;
-                    b = b - min;
-
-                    int max = r;
-                    if (max < g) max = g;
-                    if (max < b) max = b;
-
-                    float dMdR;
-                    if (max != 0)
-                    {
-                        float realMax = 255;
-                        dMdR = realMax / Math.Abs(max);
-                    }
-                    else dMdR = 1;                    
-
-                    r = (int)(r * dMdR);
-                    g = (int)(g * dMdR);
-                    b = (int)(b * dMdR);
-
-                    var v2 = FilterV2(r, g, b);
-
-                    Color c = Color.FromArgb(v2, v2, v2);
-                    Result.SetPixel(x, y, c);
-                }
-
-            return Result;
-        }
-
-        */
         private int FilterV2(int R, int G, int B)
         {
             int avg = R + G + B;
