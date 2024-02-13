@@ -166,6 +166,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Speech" />
     <Reference Include="System.Text.Encodings.Web, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.6.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
@@ -290,6 +291,14 @@
       <DependentUpon>Viewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\AI\Games\OSU\Viewer.cs" />
+    <Compile Include="Modules\AI\Games\TickTakToe\DataSet.cs" />
+    <Compile Include="Modules\AI\Games\TickTakToe\Field.cs" />
+    <Compile Include="Modules\AI\Games\TickTakToe\Game.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AI\Games\TickTakToe\Game.Designer.cs">
+      <DependentUpon>Game.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\AI\LLM\Forms\2ch Parser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -315,7 +324,15 @@
     <Compile Include="Modules\AI\TextGenerate\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Audio\Voice\Windows\Client.cs" />
+    <Compile Include="Modules\Audio\Voice\Windows\Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Audio\Voice\Windows\Form.Designer.cs">
+      <DependentUpon>Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Wiki\API.cs" />
+    <Compile Include="Modules\Wiki\DataMiner\Multi\ErrorClient.cs" />
     <Compile Include="Modules\Wiki\DataMiner\Simple.cs" />
     <Compile Include="Modules\Wiki\Data.cs" />
     <Compile Include="Program.cs" />
@@ -350,6 +367,9 @@
     <EmbeddedResource Include="Modules\AI\Games\OSU\Forms\Viewer.resx">
       <DependentUpon>Viewer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AI\Games\TickTakToe\Game.resx">
+      <DependentUpon>Game.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\AI\LLM\Forms\2ch Parser.resx">
       <DependentUpon>2ch Parser.cs</DependentUpon>
     </EmbeddedResource>
@@ -361,6 +381,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\AI\TextGenerate\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Audio\Voice\Windows\Form.resx">
+      <DependentUpon>Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -387,7 +410,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modules\AI\LLM\Data\" />
-    <Folder Include="Modules\AI\TextToSpeech\" />
+    <Folder Include="Modules\AI\Transformers\" />
+    <Folder Include="Modules\ChatGPT\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="License-LGPL.txt" />

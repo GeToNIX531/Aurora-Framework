@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
 using Buffers;
+using System.Linq;
 
 namespace Aurora_Framework.Modules.AI.BaseV2
 {
@@ -40,24 +41,24 @@ namespace Aurora_Framework.Modules.AI.BaseV2
         public double[] Result(double[] Input)
         {
             double[] input = Input;
-            for (int l = 0; l < LCount; l++)
+            for (int l = 0; l < LCount - 1; l++)
             {
-                input = layers[l].Result(input);
+                input = layers[l].Result(input, true);
             }
-
+            input = layers[LCount - 1].Result(input, false);
             return input;
         }
 
+        //Скорее всего тут ошибка
         public void Learn(double[] Input, double[] Output, double Alpha = 0.01d)
         {
-
             BPointer<double[]> buffer = new BPointer<double[]>(LCount + 1);
             buffer.Add(Input);
 
             for (int i = 0; i < LCount - 1; i++)
             {
                 buffer.Last(out var value);
-                var output = layers[i].Result(value);
+                var output = layers[i].Result(value, true);
                 buffer.Add(output);
             }
 
@@ -81,6 +82,16 @@ namespace Aurora_Framework.Modules.AI.BaseV2
             }
 
             return loss / OCount;
+        }
+
+        public static double[] SoftMax(double[] z)
+        {
+            var z_exp = z.Select(Math.Exp);
+
+            var sum_z_exp = z_exp.Sum();
+
+            var softmax = z_exp.Select(i => i / sum_z_exp);
+            return softmax.ToArray();
         }
     }
 
@@ -111,7 +122,7 @@ namespace Aurora_Framework.Modules.AI.BaseV2
             }
         }
 
-        public double[] Result(double[] Input)
+        public double[] Result(double[] Input, bool Relu)
         {
             double[] result = new double[OCount];
             for (int k = 0; k < OCount; k++)
@@ -124,7 +135,9 @@ namespace Aurora_Framework.Modules.AI.BaseV2
                 }
 
                 value += B[k];
-                result[k] = FunctionActivationReLu(value);
+                if (Relu)
+                    result[k] = FunctionActivationReLu(value);
+                else result[k] = value;
             }
 
             return result;
@@ -170,13 +183,14 @@ namespace Aurora_Framework.Modules.AI.BaseV2
 
         public LearnData GetLearnData(double[] Input, double[] Output, LearnData LearnData = null)
         {
-            double[] result = Result(Input);
-            
+            double[] result;
+
 
             double[] de_dt = new double[OCount];
             if (LearnData == null)
             {
-                double[] errors = NError(result, Output);
+                result = Result(Input, false);
+                double[] errors = NError(Client.SoftMax(result), Output);
                 for (int k = 0; k < OCount; k++)
                 {
                     de_dt[k] = errors[k];
@@ -184,6 +198,7 @@ namespace Aurora_Framework.Modules.AI.BaseV2
             }
             else
             {
+                result = Result(Input, true);
                 for (int k = 0; k < OCount; k++)
                 {
                     de_dt[k] = LearnData.de_dh[k] * DeriveFunctionActivaionReLu(result[k]);
@@ -191,7 +206,7 @@ namespace Aurora_Framework.Modules.AI.BaseV2
             }
 
             double[,] de_dw = new double[ICount, OCount];
-            double[] de_db = new double[OCount];
+            double[] de_db;
 
             de_db = de_dt;
 
@@ -261,7 +276,7 @@ namespace Aurora_Framework.Modules.AI.BaseV2
         {
         }
 
-        public new double[] Result(double[] Input)
+        public double[] Result(double[] Input)
         {
             int tCount = Environment.ProcessorCount;
             LimitedConcurrencyLevelTaskScheduler lcts = new LimitedConcurrencyLevelTaskScheduler(tCount - 1);
