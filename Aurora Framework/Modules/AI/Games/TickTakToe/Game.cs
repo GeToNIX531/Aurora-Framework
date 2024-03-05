@@ -43,8 +43,8 @@ namespace Aurora_Framework.Modules.AI.Games.TickTakToe
             }
 
             field = new Field();
-            client1 = new BaseV2.Client(10, 36,20, 9);
-            client2 = new BaseV2.Client(10, 36,20,9);
+            client1 = new BaseV2.Client(10, 10, 10, 10, 9);
+            client2 = new BaseV2.Client(10, 10, 10, 10, 9);
         }
 
         Cell cell = Cell.Player1;
@@ -87,7 +87,6 @@ namespace Aurora_Framework.Modules.AI.Games.TickTakToe
 
                 var input = field.AIInput(Cell.Player2);
                 var result = client1.Result(input);
-                result = BaseV2.Client.SoftMax(result);
 
                 textBox1.Clear();
                 foreach (var r in result)
@@ -161,23 +160,29 @@ namespace Aurora_Framework.Modules.AI.Games.TickTakToe
                     foreach (var _b in buttons)
                         _b.Text = string.Empty;
 
-                    double coef = 1d;
-                    if (Player == Cell.Null) coef = 0.5d;
 
-                        if (field.AIDataLearn(out var inputs, out var outputs))
+                    if (field.AIDataLearn(out var inputs, out var outputs))
+                    {
+                        for (int i = 0; i < inputs.Length; i++)
                         {
-                            for (int i = 0; i < inputs.Length; i++)
-                            {
-                                var input = inputs[i];
-                                var output = outputs[i];
+                            var input = inputs[i];
+                            var output = outputs[i];
 
-                                for (int k = 0; k < 100; k++)
+                            for (int k = 0; k < 100; k++)
+                            {
+                                if (Player == Cell.Null)
                                 {
-                                    client1.Learn(input, output, 0.01d * i / (inputs.Length * inputs.Length) * coef);
-                                    client2.Learn(input, output, 0.01d * i / (inputs.Length * inputs.Length) * coef);
+                                    client1.Learn(input, output, 0.1d * i / (inputs.Length * inputs.Length));
+                                    client2.Learn(input, output, 0.1d * i / (inputs.Length * inputs.Length));
+                                }
+                                else
+                                {
+                                    client1.Learn(input, output, 0.1d / inputs.Length);
+                                    client2.Learn(input, output, 0.1d / inputs.Length);
                                 }
                             }
                         }
+                    }
 
                     field.Clear();
 
@@ -208,13 +213,11 @@ namespace Aurora_Framework.Modules.AI.Games.TickTakToe
                     {
                         input = field.AIInput(cell);
                         result = client1.Result(input);
-                        result = BaseV2.Client.SoftMax(result);
                     }
                     else
                     {
                         input = field.AIInput(cell);
                         result = client2.Result(input);
-                        result = BaseV2.Client.SoftMax(result);
                     }
 
                     if (cell == Cell.Player1)

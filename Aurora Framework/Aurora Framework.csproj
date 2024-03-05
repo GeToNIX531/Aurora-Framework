@@ -208,17 +208,28 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Main\Buffers\BPointer.cs" />
+    <Compile Include="Main\Buffers\DoubleBuffer.cs" />
     <Compile Include="Main\Buffers\Tokenezator\Inputer.cs" />
     <Compile Include="Main\Buffers\Tokenezator\Outputer.cs" />
+    <Compile Include="Main\Math\FunctionActivation.cs" />
     <Compile Include="Main\Saver\Extension.cs" />
     <Compile Include="Main\Saver\ISave.cs" />
     <Compile Include="Main\Vector\Extension.cs" />
-    <Compile Include="Modules\AI\BaseV2\Client.cs" />
-    <Compile Include="Modules\AI\BaseV2\LimitedConcurrencyLevelTaskScheduler.cs" />
-    <Compile Include="Modules\AI\BaseV2\Test\Find50.cs">
+    <Compile Include="Modules\AI\BaseV2 - Break\Client.cs" />
+    <Compile Include="Modules\AI\BaseV2 - Break\Data\IOGame.cs" />
+    <Compile Include="Modules\AI\BaseV2 - Break\Data\IO.cs" />
+    <Compile Include="Modules\AI\BaseV2 - Break\Data\IOModify.cs" />
+    <Compile Include="Modules\AI\BaseV2 - Break\LimitedConcurrencyLevelTaskScheduler.cs" />
+    <Compile Include="Modules\AI\BaseV2 - Break\Test\Math.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Modules\AI\BaseV2\Test\Find50.Designer.cs">
+    <Compile Include="Modules\AI\BaseV2 - Break\Test\Math.Designer.cs">
+      <DependentUpon>Math.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\AI\BaseV2 - Break\Test\Find50.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AI\BaseV2 - Break\Test\Find50.Designer.cs">
       <DependentUpon>Find50.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\AI\Base\Activators.cs" />
@@ -337,7 +348,10 @@
     <Compile Include="Modules\Wiki\Data.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Modules\AI\BaseV2\Test\Find50.resx">
+    <EmbeddedResource Include="Modules\AI\BaseV2 - Break\Test\Math.resx">
+      <DependentUpon>Math.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AI\BaseV2 - Break\Test\Find50.resx">
       <DependentUpon>Find50.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\AI\Games\OSU\Analyse.resx">
@@ -409,7 +423,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Modules\AI\BaseV2 - Break\Data\Train\" />
     <Folder Include="Modules\AI\LLM\Data\" />
+    <Folder Include="Modules\AI\NewFolder1\" />
     <Folder Include="Modules\AI\Transformers\" />
     <Folder Include="Modules\ChatGPT\" />
   </ItemGroup>

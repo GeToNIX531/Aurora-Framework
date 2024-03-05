@@ -43,14 +43,14 @@ namespace Aurora_Framework.Modules.AI.BaseV2
             double[] input = Input;
             for (int l = 0; l < LCount - 1; l++)
             {
-                input = layers[l].Result(input, true);
+                input = layers[l].ReLuResult(input);
             }
-            input = layers[LCount - 1].Result(input, false);
+            input = layers[LCount - 1].SoftMaxResult(input);
             return input;
         }
 
         //Скорее всего тут ошибка
-        public void Learn(double[] Input, double[] Output, double Alpha = 0.01d)
+        public void Learn(double[] Input, double[] Output, double Alpha = 0.001d)
         {
             BPointer<double[]> buffer = new BPointer<double[]>(LCount + 1);
             buffer.Add(Input);
@@ -58,7 +58,7 @@ namespace Aurora_Framework.Modules.AI.BaseV2
             for (int i = 0; i < LCount - 1; i++)
             {
                 buffer.Last(out var value);
-                var output = layers[i].Result(value, true);
+                var output = layers[i].ReLuResult(value);
                 buffer.Add(output);
             }
 
@@ -71,27 +71,20 @@ namespace Aurora_Framework.Modules.AI.BaseV2
             }
         }
 
-        public double Loss(double[] Input, double[] Output)
+        public double[] Loss(double[] Input, double[] Output)
         {
             var result = Result(Input);
-            double loss = 0;
+
+            double[] loss = new double[OCount];
+
 
             for (int k = 0; k < OCount; k++)
             {
-                loss += Output[k] - result[k];
+                var value = result[k] - Output[k];
+                loss[k] = value;
             }
 
-            return loss / OCount;
-        }
-
-        public static double[] SoftMax(double[] z)
-        {
-            var z_exp = z.Select(Math.Exp);
-
-            var sum_z_exp = z_exp.Sum();
-
-            var softmax = z_exp.Select(i => i / sum_z_exp);
-            return softmax.ToArray();
+            return loss;
         }
     }
 
@@ -122,7 +115,7 @@ namespace Aurora_Framework.Modules.AI.BaseV2
             }
         }
 
-        public double[] Result(double[] Input, bool Relu)
+        public double[] Result(double[] Input)
         {
             double[] result = new double[OCount];
             for (int k = 0; k < OCount; k++)
@@ -135,19 +128,54 @@ namespace Aurora_Framework.Modules.AI.BaseV2
                 }
 
                 value += B[k];
-                if (Relu)
-                    result[k] = FunctionActivationReLu(value);
-                else result[k] = value;
+                result[k] = value;
             }
 
             return result;
+        }
+
+        public double[] ReLuResult(double[] Input)
+        {
+            double[] result = new double[OCount];
+            for (int k = 0; k < OCount; k++)
+            {
+                double value = 0;
+
+                for (int i = 0; i < ICount; i++)
+                {
+                    value += Input[i] * W[i, k];
+                }
+
+                result[k] = Math.Max(0, value + B[k]);
+            }
+
+            return result;
+        }
+
+        public double[] SoftMaxResult(double[] Input)
+        {
+            double[] result = new double[OCount];
+            for (int k = 0; k < OCount; k++)
+            {
+                double value = 0;
+
+                for (int i = 0; i < ICount; i++)
+                {
+                    value += Input[i] * W[i, k];
+                }
+
+                result[k] = value + B[k];
+            }
+
+            return Main.Math.FunctionActivation.SoftMax(result);
         }
 
         public double[] NError(double[] aiResult, double[] Output)
         {
             for (int k = 0; k < OCount; k++)
             {
-                aiResult[k] = Output[k] - aiResult[k];
+                double value = Output[k] - aiResult[k];
+                aiResult[k] = value;
             }
 
             return aiResult;
@@ -155,26 +183,22 @@ namespace Aurora_Framework.Modules.AI.BaseV2
 
 
         private double coefError => 1 / OCount;
-        public double LError(double[] NError)
-        {
-            double result = 0;
-
-            foreach (double value in NError)
-                result += value;
-
-            return result * coefError;
-        }
-
         public void Update(double[,] WCoueficent, double[] BCoeficent, double Alpha)
         {
-            for (int k = 0; k < OCount; k++)
+            lock (W)
             {
-                for (int i = 0; i < ICount; i++)
+                lock (B)
                 {
-                    W[i, k] += WCoueficent[i, k] * Alpha;
-                }
+                    for (int k = 0; k < OCount; k++)
+                    {
+                        for (int i = 0; i < ICount; i++)
+                        {
+                            W[i, k] += WCoueficent[i, k] * Alpha;
+                        }
 
-                B[k] += BCoeficent[k] * Alpha;
+                        B[k] += BCoeficent[k] * Alpha;
+                    }
+                }
             }
         }
 
@@ -189,8 +213,8 @@ namespace Aurora_Framework.Modules.AI.BaseV2
             double[] de_dt = new double[OCount];
             if (LearnData == null)
             {
-                result = Result(Input, false);
-                double[] errors = NError(Client.SoftMax(result), Output);
+                result = SoftMaxResult(Input);
+                double[] errors = NError(result, Output);
                 for (int k = 0; k < OCount; k++)
                 {
                     de_dt[k] = errors[k];
@@ -198,7 +222,7 @@ namespace Aurora_Framework.Modules.AI.BaseV2
             }
             else
             {
-                result = Result(Input, true);
+                result = ReLuResult(Input);
                 for (int k = 0; k < OCount; k++)
                 {
                     de_dt[k] = LearnData.de_dh[k] * DeriveFunctionActivaionReLu(result[k]);
@@ -276,7 +300,7 @@ namespace Aurora_Framework.Modules.AI.BaseV2
         {
         }
 
-        public double[] Result(double[] Input)
+        public new double[] Result(double[] Input)
         {
             int tCount = Environment.ProcessorCount;
             LimitedConcurrencyLevelTaskScheduler lcts = new LimitedConcurrencyLevelTaskScheduler(tCount - 1);
