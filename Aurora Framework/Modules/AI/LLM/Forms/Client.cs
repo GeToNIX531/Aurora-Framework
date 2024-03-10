@@ -188,10 +188,10 @@ namespace Aurora_Framework.Modules.AI.LLM.Forms
             }
         }
 
-        Base.Client aiClient;
+        AI_Aurora_V1.Modules.AI.Base.Client aiClient;
         private void button3_Click(object sender, EventArgs e)
         {
-            aiClient = new Base.Client(1024, 256, inputer.Count + 1);
+            aiClient = new AI_Aurora_V1.Modules.AI.Base.Client(1024, 256, inputer.Count + 1);
             chat = api.Chat.CreateConversation(new ChatRequest()
             {
                 Model = Model.ChatGPTTurbo,

@@ -43,13 +43,13 @@ namespace Aurora_Framework.Modules.AI.Games.TickTakToe
             }
 
             field = new Field();
-            client1 = new BaseV2.Client(10, 10, 10, 10, 9);
-            client2 = new BaseV2.Client(10, 10, 10, 10, 9);
+            client1 = new Base.BaseV2._1.Client(10, 5, 9, 9);
+            client2 = new Base.BaseV2._1.Client(10, 5, 9, 9);
         }
 
         Cell cell = Cell.Player1;
-        BaseV2.Client client1;
-        BaseV2.Client client2;
+        Base.BaseV2._1.Client client1;
+        Base.BaseV2._1.Client client2;
         Random rnd = new Random();
         private void buttonClick(object sender, EventArgs e)
         {
@@ -172,13 +172,13 @@ namespace Aurora_Framework.Modules.AI.Games.TickTakToe
                             {
                                 if (Player == Cell.Null)
                                 {
-                                    client1.Learn(input, output, 0.1d * i / (inputs.Length * inputs.Length));
-                                    client2.Learn(input, output, 0.1d * i / (inputs.Length * inputs.Length));
+                                    client1.Learn(input, output, 0.01d * i / (inputs.Length * inputs.Length));
+                                    client2.Learn(input, output, 0.01d * i / (inputs.Length * inputs.Length));
                                 }
                                 else
                                 {
-                                    client1.Learn(input, output, 0.1d / inputs.Length);
-                                    client2.Learn(input, output, 0.1d / inputs.Length);
+                                    client1.Learn(input, output, 0.01d / inputs.Length);
+                                    client2.Learn(input, output, 0.01d / inputs.Length);
                                 }
                             }
                         }

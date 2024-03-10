@@ -20,7 +20,7 @@ namespace Aurora_Framework
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Modules.AI.BaseV2.Test.Math());
+            Application.Run(new Modules.AI.Games.TickTakToe.Game());
         }
     }
 }

@@ -232,7 +232,15 @@
     <Compile Include="Modules\AI\BaseV2 - Break\Test\Find50.Designer.cs">
       <DependentUpon>Find50.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\AI\BaseV2.1\Test\Math.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AI\BaseV2.1\Test\Math.Designer.cs">
+      <DependentUpon>Math.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\AI\Base\Activators.cs" />
+    <Compile Include="Modules\AI\BaseV2.1\Client.cs" />
+    <Compile Include="Modules\AI\BaseV2.1\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="Modules\AI\Base\Batch.cs" />
     <Compile Include="Modules\AI\Base\Client.cs" />
     <Compile Include="Modules\AI\Base\Layer.cs" />
@@ -354,6 +362,9 @@
     <EmbeddedResource Include="Modules\AI\BaseV2 - Break\Test\Find50.resx">
       <DependentUpon>Find50.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AI\BaseV2.1\Test\Math.resx">
+      <DependentUpon>Math.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\AI\Games\OSU\Analyse.resx">
       <DependentUpon>Analyse.cs</DependentUpon>
     </EmbeddedResource>
@@ -425,7 +436,6 @@
   <ItemGroup>
     <Folder Include="Modules\AI\BaseV2 - Break\Data\Train\" />
     <Folder Include="Modules\AI\LLM\Data\" />
-    <Folder Include="Modules\AI\NewFolder1\" />
     <Folder Include="Modules\AI\Transformers\" />
     <Folder Include="Modules\ChatGPT\" />
   </ItemGroup>
