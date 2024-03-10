@@ -1,4 +1,7 @@
-﻿using Aurora_Framework.Modules.AI.LLM.Forms;
+﻿using Aurora_Framework.Modules.AI.BaseV2.Test;
+using Aurora_Framework.Modules.AI.Games.OSU.Forms;
+using Aurora_Framework.Modules.AI.LLM.Forms;
+using Aurora_Framework.Modules.AI.TextGenerate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +20,7 @@ namespace Aurora_Framework
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Modules.AI.Games.OSU.Forms.Main());
+            Application.Run(new Modules.AI.Games.TickTakToe.Game());
         }
     }
 }

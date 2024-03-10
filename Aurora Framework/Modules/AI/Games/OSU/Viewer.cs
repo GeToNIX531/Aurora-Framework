@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Output = SharpDX.DXGI.Output;
 
 namespace Aurora_Framework.Modules.AI.Games.OSU
 {

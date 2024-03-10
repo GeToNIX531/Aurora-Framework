@@ -24,7 +24,6 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
         Client aiClient;
         private void Trainer_Load(object sender, EventArgs e)
         {
-            aiClient = new Client(160, 120, 2);
         }
 
         Image Temp;

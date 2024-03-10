@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 public sealed class FastHooker : IDisposable
 {
-    private static class WinAPI
+    public static class WinAPI
     {
         public static class Kernel32
         {
@@ -93,6 +93,18 @@ public sealed class FastHooker : IDisposable
 
             [DllImport("user32")]
             public static extern bool UnhookWindowsHookEx(IntPtr hHk);
+
+            [DllImport("user32.dll")]
+            public static extern bool SetCursorPos(int X, int Y);
+
+            [DllImport("user32.dll", CharSet = CharSet.Auto)]
+            public static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+
+            [DllImport("user32.dll", SetLastError = true)]
+            public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+ 
+
         }
     }
 

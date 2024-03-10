@@ -17,7 +17,7 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -144,6 +144,9 @@
     <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll</HintPath>
     </Reference>
+    <Reference Include="SimWinMouse, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimWinMouse.1.0.2\lib\net20\SimWinMouse.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -163,6 +166,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Speech" />
     <Reference Include="System.Text.Encodings.Web, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.6.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
@@ -188,6 +192,9 @@
     <Reference Include="Tensorflow.Binding, Version=0.150.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\TensorFlow.NET.0.150.0\lib\netstandard2.0\Tensorflow.Binding.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsInput, Version=1.0.4.0, Culture=neutral, PublicKeyToken=9b287f7dc5073cad, processorArchitecture=MSIL">
+      <HintPath>..\packages\InputSimulator.1.0.4.0\lib\net20\WindowsInput.dll</HintPath>
+    </Reference>
     <Reference Include="ZedGraph, Version=5.1.7.430, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
       <HintPath>..\packages\ZedGraph.5.1.7\lib\net35-Client\ZedGraph.dll</HintPath>
       <Private>True</Private>
@@ -201,19 +208,76 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Main\Buffers\BPointer.cs" />
+    <Compile Include="Main\Buffers\DoubleBuffer.cs" />
     <Compile Include="Main\Buffers\Tokenezator\Inputer.cs" />
     <Compile Include="Main\Buffers\Tokenezator\Outputer.cs" />
+    <Compile Include="Main\Math\FunctionActivation.cs" />
     <Compile Include="Main\Saver\Extension.cs" />
     <Compile Include="Main\Saver\ISave.cs" />
     <Compile Include="Main\Vector\Extension.cs" />
+    <Compile Include="Modules\AI\BaseV2 - Break\Client.cs" />
+    <Compile Include="Modules\AI\BaseV2 - Break\Data\IOGame.cs" />
+    <Compile Include="Modules\AI\BaseV2 - Break\Data\IO.cs" />
+    <Compile Include="Modules\AI\BaseV2 - Break\Data\IOModify.cs" />
+    <Compile Include="Modules\AI\BaseV2 - Break\LimitedConcurrencyLevelTaskScheduler.cs" />
+    <Compile Include="Modules\AI\BaseV2 - Break\Test\Math.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AI\BaseV2 - Break\Test\Math.Designer.cs">
+      <DependentUpon>Math.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\AI\BaseV2 - Break\Test\Find50.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AI\BaseV2 - Break\Test\Find50.Designer.cs">
+      <DependentUpon>Find50.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\AI\BaseV2.1\Test\Math.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AI\BaseV2.1\Test\Math.Designer.cs">
+      <DependentUpon>Math.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\AI\Base\Activators.cs" />
+    <Compile Include="Modules\AI\BaseV2.1\Client.cs" />
+    <Compile Include="Modules\AI\BaseV2.1\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="Modules\AI\Base\Batch.cs" />
     <Compile Include="Modules\AI\Base\Client.cs" />
     <Compile Include="Modules\AI\Base\Layer.cs" />
     <Compile Include="Modules\AI\Base\TrainData\Find50.cs" />
     <Compile Include="Modules\AI\Games\Hooker.cs" />
     <Compile Include="Modules\AI\Games\FastHooker.cs" />
+    <Compile Include="Modules\AI\Games\OSU\Analyse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AI\Games\OSU\Analyse.Designer.cs">
+      <DependentUpon>Analyse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\AI\Games\OSU\Analyser\Data\DB.cs" />
+    <Compile Include="Modules\AI\Games\OSU\Analyser\Data\MouseJiggle.cs" />
+    <Compile Include="Modules\AI\Games\OSU\Analyser\Forms\Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AI\Games\OSU\Analyser\Forms\Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\AI\Games\OSU\Analyser\Forms\Viewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AI\Games\OSU\Analyser\Forms\Viewer.Designer.cs">
+      <DependentUpon>Viewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\AI\Games\OSU\Client.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AI\Games\OSU\Client.Designer.cs">
+      <DependentUpon>Client.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\AI\Games\OSU\Data\DirectX.cs" />
     <Compile Include="Modules\AI\Games\OSU\Data\FrameData.cs" />
+    <Compile Include="Modules\AI\Games\OSU\Data\Game.cs" />
+    <Compile Include="Modules\AI\Games\OSU\Data\ImageFilter.cs" />
+    <Compile Include="Modules\AI\Games\OSU\Data\OsuData.cs" />
     <Compile Include="Modules\AI\Games\OSU\Data\PPCounter.cs" />
     <Compile Include="Modules\AI\Games\OSU\Forms\Analys.cs">
       <SubType>Form</SubType>
@@ -246,6 +310,14 @@
       <DependentUpon>Viewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\AI\Games\OSU\Viewer.cs" />
+    <Compile Include="Modules\AI\Games\TickTakToe\DataSet.cs" />
+    <Compile Include="Modules\AI\Games\TickTakToe\Field.cs" />
+    <Compile Include="Modules\AI\Games\TickTakToe\Game.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AI\Games\TickTakToe\Game.Designer.cs">
+      <DependentUpon>Game.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\AI\LLM\Forms\2ch Parser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -264,11 +336,47 @@
     <Compile Include="Modules\AI\LLM\Forms\DataMiner.Designer.cs">
       <DependentUpon>DataMiner.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\AI\TextGenerate\Client.cs" />
+    <Compile Include="Modules\AI\TextGenerate\Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AI\TextGenerate\Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Audio\Voice\Windows\Client.cs" />
+    <Compile Include="Modules\Audio\Voice\Windows\Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Audio\Voice\Windows\Form.Designer.cs">
+      <DependentUpon>Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Wiki\API.cs" />
+    <Compile Include="Modules\Wiki\DataMiner\Multi\ErrorClient.cs" />
     <Compile Include="Modules\Wiki\DataMiner\Simple.cs" />
     <Compile Include="Modules\Wiki\Data.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Modules\AI\BaseV2 - Break\Test\Math.resx">
+      <DependentUpon>Math.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AI\BaseV2 - Break\Test\Find50.resx">
+      <DependentUpon>Find50.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AI\BaseV2.1\Test\Math.resx">
+      <DependentUpon>Math.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AI\Games\OSU\Analyse.resx">
+      <DependentUpon>Analyse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AI\Games\OSU\Analyser\Forms\Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AI\Games\OSU\Analyser\Forms\Viewer.resx">
+      <DependentUpon>Viewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AI\Games\OSU\Client.resx">
+      <DependentUpon>Client.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\AI\Games\OSU\Forms\Analys.resx">
       <DependentUpon>Analys.cs</DependentUpon>
     </EmbeddedResource>
@@ -284,6 +392,9 @@
     <EmbeddedResource Include="Modules\AI\Games\OSU\Forms\Viewer.resx">
       <DependentUpon>Viewer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AI\Games\TickTakToe\Game.resx">
+      <DependentUpon>Game.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\AI\LLM\Forms\2ch Parser.resx">
       <DependentUpon>2ch Parser.cs</DependentUpon>
     </EmbeddedResource>
@@ -292,6 +403,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\AI\LLM\Forms\DataMiner.resx">
       <DependentUpon>DataMiner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AI\TextGenerate\Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Audio\Voice\Windows\Form.resx">
+      <DependentUpon>Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -317,7 +434,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Modules\AI\BaseV2 - Break\Data\Train\" />
     <Folder Include="Modules\AI\LLM\Data\" />
+    <Folder Include="Modules\AI\Transformers\" />
+    <Folder Include="Modules\ChatGPT\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="License-LGPL.txt" />

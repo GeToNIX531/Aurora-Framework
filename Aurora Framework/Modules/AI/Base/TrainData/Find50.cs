@@ -10,7 +10,7 @@ namespace AI_Aurora_V1.Modules.AI.Base.TrainData
 {
     public static class Find50
     {
-        private static Vector<double> Get(int Number)
+        public static Vector<double> Get(int Number)
         {
             return new double[]
             {
@@ -53,7 +53,6 @@ namespace AI_Aurora_V1.Modules.AI.Base.TrainData
 
             return result;
         }
-
     }
 
     public class Data

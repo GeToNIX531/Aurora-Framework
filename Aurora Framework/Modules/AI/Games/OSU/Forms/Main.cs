@@ -16,5 +16,10 @@ namespace Aurora_Framework.Modules.AI.Games.OSU.Forms
         {
             InitializeComponent();
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+        }
     }
 }

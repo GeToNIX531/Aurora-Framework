@@ -30,7 +30,7 @@ namespace AI_Aurora_V1.Modules.AI.Base
             return Vector<double>.Build.DenseOfArray(t.Select(Activators.ReLu).ToArray());
         }
 
-        public void Update(LBack Data, double Aplha = 0.001f)
+        public void Update(LBack Data, double Aplha = 0.001d)
         {
             W = W - Aplha * Data.de_dW;
             B = B - Aplha * Data.de_dt;
@@ -39,7 +39,6 @@ namespace AI_Aurora_V1.Modules.AI.Base
         public LBack Backward(Vector<double> Input, Vector<double> Result)
         {
             var t1 = Input * W + B;
-            t1 = t1.SoftMax();
             var de_dt = ICount * (t1 - Result);
 
             var de_dW = Matrix<double>.Build.DenseOfColumnVectors(Input) * Matrix<double>.Build.DenseOfRowVectors(de_dt);
