@@ -473,7 +473,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="License-LGPL.txt" />
-    <Content Include="Modules\Pythone\Scripts\Client.py" />
+    <Content Include="Modules\Pythone\Scripts\Pyramid.py" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
