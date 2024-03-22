@@ -226,10 +226,17 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main\Analyser\Text\Forms\Finder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main\Analyser\Text\Forms\Finder.Designer.cs">
+      <DependentUpon>Finder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main\Buffers\BPointer.cs" />
     <Compile Include="Main\Buffers\DoubleBuffer.cs" />
     <Compile Include="Main\Buffers\Tokenezator\Inputer.cs" />
     <Compile Include="Main\Buffers\Tokenezator\Outputer.cs" />
+    <Compile Include="Main\Hash\TTHash.cs" />
     <Compile Include="Main\Math\FunctionActivation.cs" />
     <Compile Include="Main\Saver\Extension.cs" />
     <Compile Include="Main\Saver\ISave.cs" />
@@ -337,24 +344,6 @@
     <Compile Include="Modules\AI\Games\TickTakToe\Game.Designer.cs">
       <DependentUpon>Game.cs</DependentUpon>
     </Compile>
-    <Compile Include="Modules\AI\LLM\Forms\2ch Parser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Modules\AI\LLM\Forms\2ch Parser.Designer.cs">
-      <DependentUpon>2ch Parser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\AI\LLM\Forms\Client.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Modules\AI\LLM\Forms\Client.Designer.cs">
-      <DependentUpon>Client.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\AI\LLM\Forms\DataMiner.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Modules\AI\LLM\Forms\DataMiner.Designer.cs">
-      <DependentUpon>DataMiner.cs</DependentUpon>
-    </Compile>
     <Compile Include="Modules\AI\TextGenerate\Client.cs" />
     <Compile Include="Modules\AI\TextGenerate\Main.cs">
       <SubType>Form</SubType>
@@ -380,11 +369,20 @@
     </Compile>
     <Compile Include="Modules\Pythone\Script.cs" />
     <Compile Include="Modules\Wiki\API.cs" />
-    <Compile Include="Modules\Wiki\DataMiner\Multi\ErrorClient.cs" />
-    <Compile Include="Modules\Wiki\DataMiner\Simple.cs" />
     <Compile Include="Modules\Wiki\Data.cs" />
+    <Compile Include="Modules\Wiki\Miner\Forms\Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Wiki\Miner\Forms\Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Wiki\Miner\Client.cs" />
+    <Compile Include="Modules\Wiki\Miner\Data.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Main\Analyser\Text\Forms\Finder.resx">
+      <DependentUpon>Finder.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\AI\BaseV2 - Break\Test\Math.resx">
       <DependentUpon>Math.cs</DependentUpon>
     </EmbeddedResource>
@@ -424,15 +422,6 @@
     <EmbeddedResource Include="Modules\AI\Games\TickTakToe\Game.resx">
       <DependentUpon>Game.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Modules\AI\LLM\Forms\2ch Parser.resx">
-      <DependentUpon>2ch Parser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Modules\AI\LLM\Forms\Client.resx">
-      <DependentUpon>Client.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Modules\AI\LLM\Forms\DataMiner.resx">
-      <DependentUpon>DataMiner.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Modules\AI\TextGenerate\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -440,6 +429,9 @@
       <DependentUpon>Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Pythone\Forms\Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Wiki\Miner\Forms\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -470,12 +462,18 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modules\AI\BaseV2 - Break\Data\Train\" />
-    <Folder Include="Modules\AI\LLM\Data\" />
     <Folder Include="Modules\AI\Transformers\" />
     <Folder Include="Modules\ChatGPT\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Lang\russian.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lang\russian_surnames.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="License-LGPL.txt" />
+    <Content Include="Modules\Pythone\Scripts\Client.py" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
