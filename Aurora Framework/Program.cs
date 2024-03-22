@@ -1,6 +1,6 @@
-﻿using Aurora_Framework.Modules.AI.BaseV2.Test;
+﻿using Aurora_Framework.Main.Analyser.Text.Forms;
+using Aurora_Framework.Modules.AI.BaseV2.Test;
 using Aurora_Framework.Modules.AI.Games.OSU.Forms;
-using Aurora_Framework.Modules.AI.LLM.Forms;
 using Aurora_Framework.Modules.AI.TextGenerate;
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace Aurora_Framework
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Modules.Pythone.Main());
+            Application.Run(new Finder());
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Data.Saver
 {
@@ -10,17 +12,24 @@ namespace Data.Saver
         {
             Error = null;
 
-            try
+            var pat = Path.Split('/', '\\');
+
+            string dir = string.Empty;
+            for (int i = 0; i < pat.Length - 1; i++)
             {
-                string text = JsonConvert.SerializeObject(Object);
-                File.WriteAllText(Path, text);
-                return true;
+                string temp = dir + pat[i] + '/';
+                if (Directory.Exists(temp) == false)
+                    Directory.CreateDirectory(temp);
+                dir = temp;
             }
-            catch (Exception e)
-            {
-                Error = e;
-                return false;
-            }
+
+            string file = dir + pat[pat.Length - 1];
+            if (File.Exists(file) == false)
+                File.CreateText(file).Close();
+
+            string text = JsonConvert.SerializeObject(Object);
+            File.WriteAllText(file, text);
+            return true;
         }
 
         public static bool Load<T>(this string Path, out T Value, out Exception Error)
