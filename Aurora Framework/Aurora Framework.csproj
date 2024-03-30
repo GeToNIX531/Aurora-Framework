@@ -232,7 +232,9 @@
     <Compile Include="Main\Analyser\Text\Forms\Finder.Designer.cs">
       <DependentUpon>Finder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main\Buffers\Cache\ActionCollection.cs" />
     <Compile Include="Main\Buffers\BPointer.cs" />
+    <Compile Include="Main\Buffers\Cache\Cache.cs" />
     <Compile Include="Main\Buffers\DoubleBuffer.cs" />
     <Compile Include="Main\Buffers\Tokenezator\Inputer.cs" />
     <Compile Include="Main\Buffers\Tokenezator\Outputer.cs" />
@@ -351,6 +353,13 @@
     <Compile Include="Modules\AI\TextGenerate\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\AI\YouTube_Streamer\Data\Chat.cs" />
+    <Compile Include="Modules\AI\YouTube_Streamer\Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\AI\YouTube_Streamer\Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Audio\Voice\Windows\Client.cs" />
     <Compile Include="Modules\Audio\Voice\Windows\Form.cs">
       <SubType>Form</SubType>
@@ -423,6 +432,9 @@
       <DependentUpon>Game.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\AI\TextGenerate\Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\AI\YouTube_Streamer\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Audio\Voice\Windows\Form.resx">
